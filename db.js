@@ -25,11 +25,6 @@ const sync = async () => {
     );
   `;
   await client.query(SQL);
-  console.log(await createAuthor('Hunter', 'Thompson'));
-  const authors = await readAuthors();
-  console.log(authors[0].id);
-  //console.log(await readAuthor(authors[0].id));
-  await deleteAuthor(authors[0].id);
 };
 
 const readAuthor = async id => {
@@ -45,8 +40,9 @@ const readAuthors = async () => {
 };
 
 const updateAuthor = async author => {
-  const SQL = 'UPDATE authors SET first_name = $1 WHERE id=$2 RETURNING *';
-  await client.query(SQL, [author.name, author.id]);
+  const SQL =
+    'UPDATE authors SET first_name = $1, last_name = $2 WHERE id=$3 RETURNING *';
+  await client.query(SQL, [author.firstName, author.lastName, author.id]);
   return response.rows[0];
 };
 
@@ -62,8 +58,24 @@ const createAuthor = async (firstName, lastName) => {
   return response.rows[0];
 };
 
+const readArticle = async id => {
+  const SQL = 'SELECT * FROM articles WHERE id=$1';
+  const response = await client.query(SQL, [id]);
+  return response.rows[0];
+};
+
 sync();
 
 module.exports = {
   sync,
+  createAuthor,
+  readAuthor,
+  readAuthors,
+  updateAuthor,
+  deleteAuthor,
+  createArticle,
+  readArticle,
+  readArticles,
+  updateArticle,
+  deleteArticle,
 };
