@@ -26,6 +26,14 @@ const sync = async () => {
   `;
   await client.query(SQL);
   console.log(await createAuthor('Hunter', 'Thompson'));
+  const authors = await readAuthors();
+  console.log(authors[0].id);
+};
+
+const readAuthors = async () => {
+  const SQL = 'SELECT * FROM authors';
+  const response = await client.query(SQL);
+  return response.rows;
 };
 
 const createAuthor = async (firstName, lastName) => {
