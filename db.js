@@ -28,7 +28,8 @@ const sync = async () => {
   console.log(await createAuthor('Hunter', 'Thompson'));
   const authors = await readAuthors();
   console.log(authors[0].id);
-  console.log(await readAuthor(authors[0].id));
+  //console.log(await readAuthor(authors[0].id));
+  await deleteAuthor(authors[0].id);
 };
 
 const readAuthor = async id => {
@@ -41,6 +42,11 @@ const readAuthors = async () => {
   const SQL = 'SELECT * FROM authors';
   const response = await client.query(SQL);
   return response.rows;
+};
+
+const deleteAuthor = async id => {
+  const SQL = 'DELETE FROM authors WHERE id=$1';
+  await client.query(SQL, [id]);
 };
 
 const createAuthor = async (firstName, lastName) => {
