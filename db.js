@@ -25,7 +25,16 @@ const sync = async () => {
     );
   `;
   await client.query(SQL);
+  console.log(await createAuthor('Hunter', 'Thompson'));
 };
+
+const createAuthor = async (firstName, lastName) => {
+  const SQL =
+    'INSERT INTO authors(first_name, last_name) VALUES($1, $2) RETURNING *';
+  const response = await client.query(SQL, [firstName, lastName]);
+  return response.rows[0];
+};
+
 sync();
 
 module.exports = {
