@@ -44,6 +44,12 @@ const readAuthors = async () => {
   return response.rows;
 };
 
+const updateAuthor = async author => {
+  const SQL = 'UPDATE authors SET first_name = $1 WHERE id=$2 RETURNING *';
+  await client.query(SQL, [author.name, author.id]);
+  return response.rows[0];
+};
+
 const deleteAuthor = async id => {
   const SQL = 'DELETE FROM authors WHERE id=$1';
   await client.query(SQL, [id]);
