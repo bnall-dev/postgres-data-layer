@@ -77,6 +77,11 @@ const updateArticle = async article => {
   return response.rows[0];
 };
 
+const deleteArticle = async id => {
+  const SQL = 'DELETE FROM articles WHERE id=$1';
+  await client.query(SQL, [id]);
+};
+
 sync();
 
 module.exports = {
