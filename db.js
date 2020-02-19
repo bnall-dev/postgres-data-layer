@@ -64,6 +64,12 @@ const readArticle = async id => {
   return response.rows[0];
 };
 
+const readArticles = async () => {
+  const SQL = 'SELECT * FROM articles';
+  const response = await client.query(SQL);
+  return response.rows;
+};
+
 sync();
 
 module.exports = {
