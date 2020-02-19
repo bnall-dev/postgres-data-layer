@@ -82,6 +82,13 @@ const deleteArticle = async id => {
   await client.query(SQL, [id]);
 };
 
+const createArticle = async (authorId, title, body) => {
+  const SQL =
+    'INSERT INTO articles(author_id, title, body) VALUES($1, $2, $3) RETURNING *';
+  const response = await client.query(SQL, [authorId, title, body]);
+  return response.rows[0];
+};
+
 sync();
 
 module.exports = {
