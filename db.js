@@ -70,6 +70,13 @@ const readArticles = async () => {
   return response.rows;
 };
 
+const updateArticle = async article => {
+  const SQL =
+    'UPDATE articles SET title = $1, body = $2 WHERE id=$3 RETURNING *';
+  await client.query(SQL, [article.title, article.body, author.id]);
+  return response.rows[0];
+};
+
 sync();
 
 module.exports = {
