@@ -28,6 +28,13 @@ const sync = async () => {
   console.log(await createAuthor('Hunter', 'Thompson'));
   const authors = await readAuthors();
   console.log(authors[0].id);
+  console.log(await readAuthor(authors[0].id));
+};
+
+const readAuthor = async id => {
+  const SQL = 'SELECT * FROM authors WHERE id=$1';
+  const response = await client.query(SQL, [id]);
+  return response.rows[0];
 };
 
 const readAuthors = async () => {
